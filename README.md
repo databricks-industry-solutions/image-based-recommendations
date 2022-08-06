@@ -1,24 +1,15 @@
-<img src=https://d1r5llqwmkrl74.cloudfront.net/notebooks/fsi/fs-lakehouse-logo-transparent.png width="600px">
+# How to Build an Image Recommendation System for Online Retail using Contrastive Learning (and at scale!)
 
-[![DBR](https://img.shields.io/badge/DBR-10.4ML-red?logo=databricks&style=for-the-badge)](https://docs.databricks.com/release-notes/runtime/10.4ml.html)
-[![CLOUD](https://img.shields.io/badge/CLOUD-ALL-blue?logo=googlecloud&style=for-the-badge)](https://cloud.google.com/databricks)
-[![POC](https://img.shields.io/badge/POC-10_days-green?style=for-the-badge)](https://databricks.com/try-databricks)
+In this solution, you will learn the end to end process of building a recommender that uses a model trained using similarity learning, a novel machine learning approach more suitable for finding similar items. You will use the Tensorflow_similarity library to train the model and Spark,Horovod, and Hypeopt, to scale the model training across a GPU cluster. Mlflow will be used to log and track all aspects of the process and Delta will be used to preserve data lineage and reproducibility.
 
-*Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.*
+At a high level, similarity models are trained using contrastive learning. In contrastive learning, the goal is to make the machine learning model (an adaptive algorithm) learn an embedding space where the distance between similar items is minimized and distance between dissimilar items is maximized. In this quickstart we will use the fashion MNIST dataset, which comprises of around 70,000 images of various clothing items. Based on the above description, a similarity model trained on this labelled dataset will learn an embedding space where embeddings of similar items e.g. boots are closer together and different items e.g. boots and bandanas are far apart. 
 
-___
-<john.doe@databricks.com>
-
-___
-
-
-IMAGE TO REFERENCE ARCHITECTURE
-
+In similarity learning, the goal is to teach the model to discover a space where the similar items are grouped closer to each other and dissimilar items are separated even more. In supervised similarity learning, the algorithms has access to image labels to learn from, in addition to the image data itself.
 ___
 
 &copy; 2022 Databricks, Inc. All rights reserved. The source in this notebook is provided subject to the Databricks License [https://databricks.com/db-license-source].  All included or referenced third party libraries are subject to the licenses set forth below.
 
-| library                                | description             | license    | source                                              |
+| library / data source                  | description             | license    | source                                              |
 |----------------------------------------|-------------------------|------------|-----------------------------------------------------|
-| PyYAML                                 | Reading Yaml files      | MIT        | https://github.com/yaml/pyyaml                      |
-
+| tensorflow                                | package                 | Apache 2.0  | https://github.com/tensorflow/tensorflow/blob/master/LICENSE  |
+| fashion-mnist| dataset | MIT | https://github.com/zalandoresearch/fashion-mnist/blob/master/LICENSE |

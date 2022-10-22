@@ -1,4 +1,9 @@
 # Databricks notebook source
+# MAGIC %md 
+# MAGIC You may find this series of notebooks at https://github.com/databricks-industry-solutions/image-based-recommendations. For more information about this solution accelerator, visit https://www.databricks.com/solutions/accelerators/recommendation-engines.
+
+# COMMAND ----------
+
 # MAGIC %md
 # MAGIC # How to Build an Image Recommendation System for Online Retail using Contrastive Learning (and at scale!)
 

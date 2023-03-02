@@ -195,7 +195,7 @@ test = spark.read.format("delta").load("/FileStore/tables/user/delta/fmnist_test
 
 # COMMAND ----------
 
-# MAGIC %md Define a function to shape the image data to a form that the model training process could accomodate. This function is entirely a function of what your image data looks like and what model architecture you choose
+# MAGIC %md Define a function to shape the image data to a form that the model training process could accommodate. This function is entirely a function of what your image data looks like and what model architecture you choose
 
 # COMMAND ----------
 
@@ -225,7 +225,7 @@ def get_dataset(train, test, rank=0, size=1):
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC Define the model architecture. The beauty of similarity learning is that you can observe siginificantly robust performance with relatively simple convolutional neural network architecture
+# MAGIC Define the model architecture. The beauty of similarity learning is that you can observe significantly robust performance with relatively simple convolutional neural network architecture
 
 # COMMAND ----------
 
@@ -425,7 +425,7 @@ mlflow.set_experiment(experiment_name)
 
 # COMMAND ----------
 
-# Start the training proces and mlflow will record logged metrics and parameters
+# Start the training process and mlflow will record logged metrics and parameters
 with mlflow.start_run() as run:  
   from sparkdl import HorovodRunner
   from tensorflow_similarity.losses import MultiSimilarityLoss  # specialized similarity loss
@@ -531,7 +531,7 @@ trials = SparkTrials(2)
 
 # COMMAND ----------
 
-# MAGIC %md Define the hyperparameter search alogorithm and start the search. Because you're using SparkTrials as defined above you're doing this in a distributed manner across your spark cluster.
+# MAGIC %md Define the hyperparameter search algorithm and start the search. Because you're using SparkTrials as defined above you're doing this in a distributed manner across your spark cluster.
 
 # COMMAND ----------
 
@@ -557,7 +557,7 @@ print(best_params)
 # COMMAND ----------
 
 # MAGIC %md 
-# MAGIC Use these paramters to train a model to build an index, which will then be used to querying.
+# MAGIC Use these parameters to train a model to build an index, which will then be used to querying.
 
 # COMMAND ----------
 
@@ -831,7 +831,7 @@ mlflow.pyfunc.log_model(artifact_path="tfsim", python_model=TfsimWrapper(), arti
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC Code and instructions to deploy an app where the REST API endpoint could be used to get recommendations is in the respository at: https://github.com/avisoori-databricks/Databricks_image_recommender/tree/main/recommender_app
+# MAGIC Code and instructions to deploy an app where the REST API endpoint could be used to get recommendations is in the repository at: https://github.com/avisoori-databricks/Databricks_image_recommender/tree/main/recommender_app
 
 # COMMAND ----------
 

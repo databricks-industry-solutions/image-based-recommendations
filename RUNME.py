@@ -54,12 +54,12 @@ job_json = {
             {
                 "job_cluster_key": "img_rec_cluster",
                 "new_cluster": {
-                    "spark_version": "10.4.x-cpu-ml-scala2.12",
+                    "spark_version": "10.2.x-gpu-ml-scala2.12",
                 "spark_conf": {
                     "spark.databricks.delta.formatCheck.enabled": "false"
                     },
                     "num_workers": 2,
-                    "node_type_id": {"AWS": "i3.xlarge", "MSA": "Standard_DS3_v2", "GCP": "n1-highmem-4"},
+                    "node_type_id": {"AWS": "g4dn.xlarge", "MSA": "Standard_NC4as_T4_v3", "GCP": "a2-highgpu-1g"},
                     "custom_tags": {
                         "usage": "solacc_testing"
                     },
@@ -73,7 +73,3 @@ job_json = {
 dbutils.widgets.dropdown("run_job", "False", ["True", "False"])
 run_job = dbutils.widgets.get("run_job") == "True"
 NotebookSolutionCompanion().deploy_compute(job_json, run_job=run_job)
-
-# COMMAND ----------
-
-

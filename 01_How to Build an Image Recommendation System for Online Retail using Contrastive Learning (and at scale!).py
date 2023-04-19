@@ -54,7 +54,7 @@ displayHTML("<img src='https://github.com/avisoori-databricks/Databricks_image_r
 
 # COMMAND ----------
 
-# MAGIC %pip install tensorflow_similarity
+# MAGIC %pip install tensorflow_similarity protobuf==3.20.3
 
 # COMMAND ----------
 

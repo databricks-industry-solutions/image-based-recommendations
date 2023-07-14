@@ -54,7 +54,7 @@ job_json = {
             {
                 "job_cluster_key": "img_rec_cluster",
                 "new_cluster": {
-                    "spark_version": "10.4.x-gpu-ml-scala2.12",
+                    "spark_version": "12.2.x-gpu-ml-scala2.12",
                 "spark_conf": {
                     "spark.databricks.delta.formatCheck.enabled": "false"
                     },

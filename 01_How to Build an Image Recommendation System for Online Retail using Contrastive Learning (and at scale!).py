@@ -11,9 +11,9 @@
 
 # MAGIC %md
 # MAGIC In this article, you will learn the end to end process of building a recommender that uses a model trained using similarity learning, a novel machine learning approach more suitable for finding similar items. You will use the Tensorflow_similarity library to train the model and Spark,Horovod, and Hypeopt, to scale the model training across a GPU cluster. Mlflow will be used to log and track all aspects of the process and Delta will be used to preserve data lineage and reproducibility.
-# MAGIC 
+# MAGIC
 # MAGIC At a high level, similarity models are trained using contrastive learning. In contrastive learning, the goal is to make the machine learning model (an adaptive algorithm) learn an embedding space where the distance between similar items is minimized and distance between dissimilar items is maximized. In this quickstart we will use the fashion MNIST dataset, which comprises of around 70,000 images of various clothing items. Based on the above description, a similarity model trained on this labelled dataset will learn an embedding space where embeddings of similar items e.g. boots are closer together and different items e.g. boots and bandanas are far apart. 
-# MAGIC 
+# MAGIC
 # MAGIC This could be illustrated as below.
 
 # COMMAND ----------
@@ -29,7 +29,7 @@ displayHTML("<img src='https://github.com/avisoori-databricks/Databricks_image_r
 
 # MAGIC %md
 # MAGIC ## Table of Contents
-# MAGIC 
+# MAGIC
 # MAGIC - 1	 Set up: We will look at cluster creation, installing the necessary libraries, importing the required modules and getting the data into Delta tables for subsequent tasks.
 # MAGIC - 2	 Model training: We will take a look at training a Similarity model. We draw from the examples in the official Tensorflow Similarity repository.
 # MAGIC - 3	 Scaling Hyperparameter search with Hyperopt and Spark: One way of scaling is to distribute the search for the best hyperparameter combination leading to optimal model performance.
@@ -40,7 +40,7 @@ displayHTML("<img src='https://github.com/avisoori-databricks/Databricks_image_r
 
 # MAGIC %md
 # MAGIC ## Set up
-# MAGIC 
+# MAGIC
 # MAGIC Enter some details about the cluster configurations (i.e. GPU cluster with 2 or more worker nodes to leverage distributed compute). T4 GPUs are a good choice for this task.
 
 # COMMAND ----------
@@ -72,7 +72,7 @@ import pandas as pd
 import tensorflow as tf
 from tensorflow.keras import layers
 from tensorflow.keras.models import load_model
-from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.optimizers.legacy import Adam, Adadelta
 from pyspark.ml.feature import OneHotEncoder
 
     
@@ -117,12 +117,12 @@ print('TensorFlow Similarity', tfsim.__version__)
 # MAGIC wget -O  test_images.gz https://github.com/zalandoresearch/fashion-mnist/raw/master/data/fashion/t10k-images-idx3-ubyte.gz
 # MAGIC wget -O  train_images.gz https://github.com/zalandoresearch/fashion-mnist/raw/master/data/fashion/train-images-idx3-ubyte.gz
 # MAGIC wget -O  train_labels.gz https://github.com/zalandoresearch/fashion-mnist/raw/master/data/fashion/train-labels-idx1-ubyte.gz
-# MAGIC 
-# MAGIC 
+# MAGIC
+# MAGIC
 # MAGIC gunzip -dk *.gz
-# MAGIC 
+# MAGIC
 # MAGIC rm -r train_labels.gz test_labels.gz train_images.gz test_images.gz
-# MAGIC 
+# MAGIC
 # MAGIC ls
 
 # COMMAND ----------
@@ -167,7 +167,7 @@ for dataset in datasets:
 
 # MAGIC %md
 # MAGIC The classes in the fashion mnist dataset are as follows. 
-# MAGIC 
+# MAGIC
 # MAGIC - Label	Description
 # MAGIC - 0	 T-shirt/top
 # MAGIC - 1	 Trouser
@@ -377,7 +377,7 @@ def train_hvd(train, test, checkpoint_path, learning_rate=0.001):
   model = get_model()
   
   # Adjust learning rate based on number of GPUs
-  optimizer = keras.optimizers.Adadelta(lr=learning_rate * hvd.size())
+  optimizer = Adadelta(learning_rate=learning_rate * hvd.size())
 
   # Use the Horovod Distributed Optimizer
   optimizer = hvd.DistributedOptimizer(optimizer)
@@ -409,7 +409,7 @@ def train_hvd(train, test, checkpoint_path, learning_rate=0.001):
 
   # Save checkpoints only on worker 0 to prevent conflicts between workers
   if hvd.rank() == 0:
-      mlflow.keras.autolog()
+      mlflow.tensorflow.autolog()
       
 
       callbacks.append(keras.callbacks.ModelCheckpoint(checkpoint_path, save_weights_only = True))
@@ -836,9 +836,9 @@ mlflow.pyfunc.log_model(artifact_path="tfsim", python_model=TfsimWrapper(), arti
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC 
+# MAGIC
 # MAGIC &copy; 2022 Databricks, Inc. All rights reserved. The source in this notebook is provided subject to the Databricks License [https://databricks.com/db-license-source].  All included or referenced third party libraries are subject to the licenses set forth below.
-# MAGIC 
+# MAGIC
 # MAGIC | library / data source                  | description             | license    | source                                              |
 # MAGIC |----------------------------------------|-------------------------|------------|-----------------------------------------------------|
 # MAGIC | tensorflow                                | package                 | Apache 2.0  | https://github.com/tensorflow/tensorflow/blob/master/LICENSE  |
